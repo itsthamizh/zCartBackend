@@ -30,11 +30,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
-//        user.setId(id); // Set the ID of the user to update
-//        return userRepository.save(user);
+        //tmporary return data
         return new User();
     }
-
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable String id) {
