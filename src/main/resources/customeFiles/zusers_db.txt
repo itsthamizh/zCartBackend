@@ -1,0 +1,4 @@
+UserName/Email,EncryptedPwd,Name,Mobile,Credit
+abc@zoho.com,ApipNbjm,Thamizh,9922992299,20
+123@zoho.com,Cboljoh,Selvan,8564119904,0
+user@zoho.com,kbwb22,Muthamizh,9872345693,60

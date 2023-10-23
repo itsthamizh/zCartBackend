@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/zcart
+    username: root@123
+    password: root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+jpa:
+  hibernate:
+    ddl-auto: update
+
+data:
+  directory:
+    userPath: ${user.home}/FullStack/zCart/zCartBackend/src/main/resources/customeFiles/zusers_db.txt
+    inventoryPath: ${user.home}/FullStack/zCart/zCartBackend/src/main/resources/customeFiles/zkartinventory_db.txt
+
+
+
+# JWT secret key
+# node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+token:
+  secret:
+    key: b90905d2fbcec86a16560f71973d98c80482af45c645283ea184cc56f1d2f3f5
+
+  # JWT expiration is 1 hour
+  expirationms: 3600000
