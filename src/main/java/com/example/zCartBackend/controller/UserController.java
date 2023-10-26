@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -34,7 +35,7 @@ public class UserController {
         return new User();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete-user/{id}")
     public String deleteUser(@PathVariable String id) {
         try {
             userRepository.deleteById(id);
