@@ -2,6 +2,7 @@ package com.example.zCartBackend.controller;
 
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
+import com.example.zCartBackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/list-all-users")
     public List<User> getAllUsers() {
@@ -20,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/get-user/{id}")
-    public User getUserById(@PathVariable String id) {
-        return userRepository.findById(id).orElse(null);
+    public User getUserByUserId(@PathVariable String userID) {
+        return (User) userService.getUserByUserID(userID);
     }
 
     @PostMapping("/add-user")
@@ -29,19 +32,14 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    @PutMapping("/update-user/{id}")
+    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
         //tmporary return data
         return new User();
     }
 
     @DeleteMapping("/delete-user/{id}")
-    public String deleteUser(@PathVariable String id) {
-        try {
-            userRepository.deleteById(id);
-            return "Deleted SuccessFully";
-        }catch (Exception e){
-            return e.getMessage();
-        }
+    public String deleteUserByUserID(@PathVariable String id) {
+        return userService.deleteUserByUserID(id);
     }
 }

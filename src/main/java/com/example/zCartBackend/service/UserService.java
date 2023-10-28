@@ -1,7 +1,5 @@
 package com.example.zCartBackend.service;
 
-import java.time.LocalDateTime;
-
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +38,24 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    public String deleteUserByUserID(String userID) {
+        if (userID == null || userID.equals("null")) {
+            return "Invalid User ID";
+        }
+
+        return userRepository.findById(userID)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return "User Deleted Successfully";
+                })
+                .orElse("Can not find User or Invalid User");
+    }
+
+    public Object getUserByUserID(String userID){
+        try{
+            return userRepository.findById(userID).orElse(null);
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
 }
