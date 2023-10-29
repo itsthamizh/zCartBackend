@@ -38,6 +38,10 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
+
     public String deleteUserByUserID(String userID) {
         if (userID == null || userID.equals("null")) {
             return "Invalid User ID";
