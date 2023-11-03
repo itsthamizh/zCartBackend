@@ -1,7 +1,11 @@
 package com.example.zCartBackend.service;
 
+import com.example.zCartBackend.model.Role;
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
+import com.example.zCartBackend.util.ConstantVariables;
+import com.example.zCartBackend.util.Util;
+import org.aspectj.apache.bcel.classfile.ConstantValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +47,11 @@ public class UserService {
     }
 
     public void createUser(User user) {
+        Set<Role> getRoles = user.getRoles();
+        if (getRoles.contains(ConstantVariables.USER)){
+            user.setRoles(Collections.singleton(Role.ROLE_USER));
+        }
+
         userRepository.save(user);
     }
 
