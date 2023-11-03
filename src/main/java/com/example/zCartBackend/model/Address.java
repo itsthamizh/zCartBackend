@@ -15,9 +15,13 @@ public class Address {
     private String state;
     private String country;
     private String pinCode;
+    private String createdDateTime;
+    private String updatedDateTime;
 
     public Address(){}
-    public Address(String doorNumber, String flatName, String street, String area, String district, String state, String country, String pinCode) {
+
+    public Address(String address_id, String doorNumber, String flatName, String street, String area, String district, String state, String country, String pinCode, String createdDateTime, String updatedDateTime) {
+        this.address_id = address_id;
         this.doorNumber = doorNumber;
         this.flatName = flatName;
         this.street = street;
@@ -26,6 +30,8 @@ public class Address {
         this.state = state;
         this.country = country;
         this.pinCode = pinCode;
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
     }
 
     public String getDoorNumber() {
@@ -91,4 +97,28 @@ public class Address {
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
     }
+    public String getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(String address_id) {
+        this.address_id = address_id;
+    }
+
+    public String getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(String createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public String getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(String updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
+
 }
