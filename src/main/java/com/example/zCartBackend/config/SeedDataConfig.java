@@ -30,9 +30,7 @@ public class SeedDataConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         if (userRepository.count() == 0) {
-
 //            User admin = User
 //                    .builder()
 //                    .firstName("admin")
@@ -41,11 +39,9 @@ public class SeedDataConfig implements CommandLineRunner {
 //                    .password(passwordEncoder.encode("password"))
 //                    .role(Role.ROLE_ADMIN)
 //                    .build();
-
-            User admin = new User(Util.getUniqueID(), "admin", "admin@admin.com", "admin@123", "7897897890", 10000);
-
-            userService.save(admin);
-            log.debug("created ADMIN user - {}", admin);
+//            User admin = new User(Util.getUniqueID(), "admin", "admin@admin.com", "admin@123", "7897897890", 10000);
+//            userService.save(admin);
+//            log.debug("created ADMIN user - {}", admin);
         }
     }
 

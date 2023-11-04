@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,6 @@ public class AddressService {
     public Address addAddress(Address address){
         address.setAddress_id(Util.getUniqueID());
         address.setCreatedDateTime(Util.getCurrentDate());
-        address.setUpdatedDateTime(Util.getCurrentDate());
         address.setUpdatedDateTime(Util.getCurrentDate());
         return addressRepository.save(address);
     }
@@ -56,5 +56,24 @@ public class AddressService {
     }
     public Optional<Address> getAddressById(String addressID) {
         return addressRepository.findById(addressID);
+    }
+    public Address generateAddressFromMap(Map<String, Object> addressMap){
+        Address address = new Address();
+        try {
+            address.setAddress_id(Util.getUniqueID());
+            address.setDoorNumber((String) addressMap.get("doorNumber"));
+            address.setFlatName((String) addressMap.get("flatName"));
+            address.setStreet((String) addressMap.get("street"));
+            address.setArea((String) addressMap.get("area"));
+            address.setDistrict((String) addressMap.get("district"));
+            address.setState((String) addressMap.get("state"));
+            address.setCountry((String) addressMap.get("country"));
+            address.setPinCode((String) addressMap.get("pincode"));
+            address.setCreatedDateTime(Util.getCurrentDate());
+            address.setUpdatedDateTime(Util.getCurrentDate());
+            return address;
+        }catch (Exception e){
+            throw new RuntimeException("Missing Address Details");
+        }
     }
 }

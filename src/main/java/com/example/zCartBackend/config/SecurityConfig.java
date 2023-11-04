@@ -60,9 +60,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/dashboard").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/add-user").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/update-user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/list-all-users").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/delete-user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/get-user/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/delete-user/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,21 +20,13 @@ public class User implements UserDetails {
     private String name;
     private String mobile_number;
     private long credit;
-    private Set<Role> roles;
+    private String roles;
     private String createdDateTime;
     private String updatedDateTime;
+    private String address_id;
 
     public User(){}
-    public User(String userId, String userName, String password, String name, String mobile, long credit) {
-        this.user_id = userId;
-        this.username = userName;
-        this.password = password;
-        this.name = name;
-        this.mobile_number = mobile;
-        this.credit = credit;
-    }
-
-    public User(String user_id, String username, String password, String name, String mobile_number, long credit, Set<Role> roles, String createdDateTime, String updatedDateTime) {
+    public User(String user_id, String username, String password, String name, String mobile_number, long credit, String roles, String createdDateTime, String updatedDateTime, String address_id) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
@@ -43,8 +36,18 @@ public class User implements UserDetails {
         this.roles = roles;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
+        this.address_id = address_id;
     }
 
+
+    public User(String userId, String userName, String password, String name, String mobile, long credit) {
+        this.user_id = userId;
+        this.username = userName;
+        this.password = password;
+        this.name = name;
+        this.mobile_number = mobile;
+        this.credit = credit;
+    }
 
     public String getUserId() {
         return user_id;
@@ -89,11 +92,11 @@ public class User implements UserDetails {
     public void setCredit(long credit) {
         this.credit = credit;
     }
-    public Set<Role> getRoles() {
+    public String getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(String roles) {
         this.roles = roles;
     }
 
@@ -113,6 +116,13 @@ public class User implements UserDetails {
         this.updatedDateTime = updatedDateTime;
     }
 
+    public String getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(String address_id) {
+        this.address_id = address_id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
