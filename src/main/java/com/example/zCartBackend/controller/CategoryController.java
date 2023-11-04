@@ -23,14 +23,14 @@ public class CategoryController {
         return categoryService.addCategory(category);
     }
 
-    @PutMapping("/update-category/{id}")
+    @PutMapping("/update-category/{category_id}")
     public Category updateCategory(@PathVariable String category_id, @RequestBody Category category){
         return categoryService.updateCategory(category_id, category);
     }
 
-    @DeleteMapping("/delete-category/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable String categoryID){
-        String result = categoryService.deleteCategory(categoryID);
+    @DeleteMapping("/delete-category/{category_id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable String category_id){
+        String result = categoryService.deleteCategory(category_id);
         return ResponseEntity.ok(result);
     }
 
@@ -40,9 +40,9 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
-    @GetMapping("/get-category/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable String categoryID) {
-        Optional<Category> category = categoryService.getCategoryById(categoryID);
+    @GetMapping("/get-category/{category_id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable String category_id) {
+        Optional<Category> category = categoryService.getCategoryById(category_id);
 
         if (category.isPresent()) {
             return ResponseEntity.ok(category.get());
