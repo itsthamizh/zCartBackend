@@ -1,25 +1,28 @@
 package com.example.zCartBackend.controller;
 
+import com.example.zCartBackend.customRespone.UserAddressResponse;
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
 import com.example.zCartBackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private UserService userService;
 
     @GetMapping("/list-all-users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/get-user/{id}")
@@ -28,14 +31,15 @@ public class UserController {
     }
 
     @PostMapping("/add-user")
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<UserAddressResponse> createUser(@RequestBody Map<String, Object> requestBody) {
+        UserAddressResponse userAddressResponse = userService.createUserWithAddress(requestBody);
+        return ResponseEntity.ok(userAddressResponse);
     }
 
     @PutMapping("/update-user/{id}")
-    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
-        //tmporary return data
-        return new User();
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
+        User user = userService.updateUser(id, userDetails);
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/delete-user/{id}")
