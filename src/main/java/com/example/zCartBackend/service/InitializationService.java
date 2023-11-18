@@ -1,9 +1,12 @@
 package com.example.zCartBackend.service;
 
+import com.example.zCartBackend.model.Category;
 import com.example.zCartBackend.model.Inventories;
 import com.example.zCartBackend.model.User;
+import com.example.zCartBackend.repository.CategoryRepository;
 import com.example.zCartBackend.repository.InventoryRepository;
 import com.example.zCartBackend.repository.UserRepository;
+import com.example.zCartBackend.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,11 @@ import java.util.UUID;
 public class InitializationService {
     private static final Logger logger = LogManager.getLogger(InitializationService.class);
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    InventoryRepository inventoryRepository;
+    private InventoryRepository inventoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public boolean loadUserDataFromDirectory(String directoryPath) {
         try {
@@ -60,7 +65,33 @@ public class InitializationService {
             return false;
         }
         return true;
+    }
 
+    public boolean loadDataFromDirectory(String directoryPath, String type) {
+        try {
+            File file = new File(directoryPath);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            boolean isFirstLine = true; // Add this flag for skip first line(headers)
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue; // Skip the first line
+                }
+                if (type.equals("user")){
+                    addInitialUserDetailsToDB(line);
+                } else if (type.equals("inventory")) {
+                    addInitialInventoryDetailsToDB(line);
+                } else if (type.equals("category")) {
+                    addInitialCategoryDetailsToDB(line);
+                }else {
+                    throw new RuntimeException("invalid input params for load data from db file");
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     private boolean addInitialUserDetailsToDB(String userDetails){
@@ -84,7 +115,6 @@ public class InitializationService {
             return false;
         }
     }
-
     private boolean addInitialInventoryDetailsToDB(String inventoryDetails){
         try {
             String[] res = inventoryDetails.split("[,]", 0);
@@ -105,6 +135,29 @@ public class InitializationService {
         }
     }
 
+    private boolean addInitialCategoryDetailsToDB(String categoryDetails){
+        try {
+            String[] res = categoryDetails.split("[,]", 0);
+            UUID randomUUID = UUID.randomUUID();
+
+            String randomCategoryID = randomUUID.toString();
+            String insertDate = Util.getCurrentDate();
+
+            Category category = new Category(randomCategoryID, res[0], insertDate, insertDate);
+            boolean exists = isCategoryDataExists(category.getCategoryName());
+            if (exists) {
+                System.out.println("Category Data exists in the database");
+                return true;
+            } else {
+                System.out.println("Category Data does not exist in the database");
+                categoryRepository.save(category);
+            }
+            logger.info("Category Added Successfully, category detail CategoryId : "+randomCategoryID+", CategoryName : "+res[0]);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
     public boolean isUserDataExists(String userName, String password) {
         Optional<User> entity = userRepository.findByUserNameAndPassword(userName, password);
         return entity.isPresent();
@@ -112,6 +165,11 @@ public class InitializationService {
 
     public boolean isInventoryDataExists(String category, String brand, String model) {
         Optional<Inventories> entity = inventoryRepository.findByCategoryBrandAndModel(category, brand, model);
+        return entity.isPresent();
+    }
+
+    public boolean isCategoryDataExists(String category) {
+        Optional<Category> entity = categoryRepository.findByCategory(category);
         return entity.isPresent();
     }
 

@@ -6,24 +6,25 @@ import jakarta.persistence.Id;
 @Entity
 public class Category {
     @Id
-    private String categoryID;
+    private String category_id;
     private String categoryName;
     private String addedDateTime;
     private String updatedDateTime;
+    public Category(){}
 
-    public Category(String categoryID, String categoryName, String addedDateTime, String updatedDateTime) {
-        this.categoryID = categoryID;
+    public Category(String category_id, String categoryName, String addedDateTime, String updatedDateTime) {
+        this.category_id = category_id;
         this.categoryName = categoryName;
         this.addedDateTime = addedDateTime;
         this.updatedDateTime = updatedDateTime;
     }
 
     public String getCategoryID() {
-        return categoryID;
+        return category_id;
     }
 
-    public void setCategoryID(String categoryID) {
-        this.categoryID = categoryID;
+    public void setCategoryID(String category_id) {
+        this.category_id = category_id;
     }
 
     public String getCategoryName() {

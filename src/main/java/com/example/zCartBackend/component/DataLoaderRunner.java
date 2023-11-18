@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoaderRunner implements ApplicationRunner {
     @Autowired
-    private InitializationService customerInitializationService;
+    private InitializationService initializationService;
 
     @Value("${data.directory.userPath}") // You can define the directory path in your application.properties or application.yml
     private String userDirectoryPath;
@@ -18,9 +18,13 @@ public class DataLoaderRunner implements ApplicationRunner {
     @Value("${data.directory.inventoryPath}") // You can define the directory path in your application.properties or application.yml
     private String inventoryDirectoryPath;
 
+    @Value("${data.directory.categoryPath}") // You can define the directory path in your application.properties or application.yml
+    private String categoryDirectoryPath;
+
     @Override
     public void run(ApplicationArguments args) {
-        customerInitializationService.loadUserDataFromDirectory(userDirectoryPath);
-        customerInitializationService.loadInventoryDataFromDirectory(inventoryDirectoryPath);
+        initializationService.loadDataFromDirectory(userDirectoryPath, "user");
+        initializationService.loadDataFromDirectory(inventoryDirectoryPath, "inventory");
+        initializationService.loadDataFromDirectory(categoryDirectoryPath, "category");
     }
 }
