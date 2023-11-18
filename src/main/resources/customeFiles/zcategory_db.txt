@@ -1,0 +1,9 @@
+CategoryName
+Fruits
+Vegetables
+Dress
+Men
+Women
+Mobile
+TV
+Kids

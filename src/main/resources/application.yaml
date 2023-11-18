@@ -16,8 +16,7 @@ data:
   directory:
     userPath: ${user.home}/FullStack/zCart/zCartBackend/src/main/resources/customeFiles/zusers_db.txt
     inventoryPath: ${user.home}/FullStack/zCart/zCartBackend/src/main/resources/customeFiles/zkartinventory_db.txt
-
-
+    categoryPath: ${user.home}/FullStack/zCart/zCartBackend/src/main/resources/customeFiles/zcategory_db.txt
 
 # JWT secret key
 # node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
