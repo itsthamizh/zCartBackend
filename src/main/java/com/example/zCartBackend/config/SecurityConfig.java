@@ -71,6 +71,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/list-all-category").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/list-all-category/**").permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "/api/v1/add-product").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/list-all-products").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/get-product/").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
