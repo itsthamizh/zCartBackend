@@ -2,13 +2,14 @@ package com.example.zCartBackend.controller;
 
 import com.example.zCartBackend.customRespone.UserAddressResponse;
 import com.example.zCartBackend.model.User;
-import com.example.zCartBackend.repository.UserRepository;
 import com.example.zCartBackend.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,17 @@ public class UserController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<UserAddressResponse> createUser(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<Object> createUser(@RequestBody HashMap<String, Object> user) {
+        User userResponse = null;
+        try {
+            userResponse = userService.addUser(user);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(userResponse);
+    }
+    @PostMapping("/add-user-with-address")
+    public ResponseEntity<UserAddressResponse> createUserWithAddress(@RequestBody Map<String, Object> requestBody) {
         UserAddressResponse userAddressResponse = userService.createUserWithAddress(requestBody);
         return ResponseEntity.ok(userAddressResponse);
     }

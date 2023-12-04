@@ -1,20 +1,19 @@
 package com.example.zCartBackend.service;
 
+import com.example.zCartBackend.config.PasswordConfig;
 import com.example.zCartBackend.customRespone.UserAddressResponse;
 import com.example.zCartBackend.model.Address;
 import com.example.zCartBackend.model.Role;
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
-import com.example.zCartBackend.util.ConstantVariables;
 import com.example.zCartBackend.util.Util;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +27,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private AddressService addressService;
+
+    private PasswordConfig passwordConfig;
 
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -47,6 +48,35 @@ public class UserService {
 //
 //        newUser.setUpdatedAt(LocalDateTime.now());
         return userRepository.save(newUser);
+    }
+
+    public User addUser(HashMap<String, Object> userInput) throws JsonProcessingException {
+        HashMap<String, Object> userMap = (HashMap<String, Object>) userInput.get("user");
+        if (userMap != null){
+            try {
+                User user = new User();
+                user.setUserId(Util.getUniqueID());
+                user.setName((String) userMap.get("name"));
+                user.setUserName((String) userMap.get("email"));
+                user.setPassword(new PasswordConfig().passwordEncoder().encode((CharSequence) userMap.get("password")));
+                user.setMobile((String) userMap.get("mobileNumber"));
+                user.setCredit(0);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                user.setRoles(objectMapper.writeValueAsString(userMap.get("roles")));
+
+                user.setCreatedDateTime(Util.getCurrentDate());
+                user.setUpdatedDateTime(Util.getCurrentDate());
+
+                User userResponse = userRepository.save(user);
+                return userResponse;
+            }catch (Exception e){
+                throw new RuntimeException("User Not Added, Facing exception while adding this exception "+ e.getMessage());
+            }
+        }else {
+            throw new RuntimeException("Getting User Input from the Params in Empty");
+        }
     }
 
     public UserAddressResponse createUserWithAddress(Map<String, Object> requestBody) {

@@ -3,7 +3,6 @@ package com.example.zCartBackend.service;
 import com.example.zCartBackend.dto.JwtAuthenticationResponse;
 import com.example.zCartBackend.dto.SignInRequest;
 import com.example.zCartBackend.dto.SignUpRequest;
-import com.example.zCartBackend.model.Role;
 import com.example.zCartBackend.model.User;
 import com.example.zCartBackend.repository.UserRepository;
 import com.example.zCartBackend.util.Util;
